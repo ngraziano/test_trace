@@ -5,12 +5,36 @@ services:
     build: back-dotnet/
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:80/
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://10.5.0.10:4317
+    networks:
+      backtest:
+        ipv4_address: 10.5.0.6
   backjava:
     build: java-back/
     environment:
-      - BASE_URL=http://backdotnet/
+      - baseUrl=http://10.5.0.6/
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://10.5.0.10:4317
     ports:
-      -"8081:8080"
-
+      - "8081:8080"
+    networks:
+      backtest:
+        ipv4_address: 10.5.0.7
+  graphcloud:
+    image: grafana/agent:v0.26.0-rc.0
+    volumes:
+      - agentdata:/etc/agent/data
+      - agent.yaml:/etc/agent/agent.yaml
+    networks:
+      backtest:
+        ipv4_address: 10.5.0.10
+networks:
+  backtest:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/24
+         gateway: 10.5.0.1
  
+volumes:
+  agentdata:
 
