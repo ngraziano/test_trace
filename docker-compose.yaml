@@ -5,14 +5,15 @@ services:
     build: back-dotnet/
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:8082/
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://192.168.0.21:4317
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://192.168.0.21:4317/
     ports:
       - "8082:8082"
   backjava:
     build: java-back/
     environment:
       - baseUrl=http://192.168.0.21:8082/
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://192.168.0.21:4317
+      - OTEL_SERVICE_NAME=test_docker_back_java
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://192.168.0.21:4317/
     ports:
       - "8081:8080"
   graphcloud:
