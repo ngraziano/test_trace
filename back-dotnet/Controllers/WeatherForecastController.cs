@@ -23,12 +23,16 @@ public class WeatherForecastController : ControllerBase
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {
+        
+        using(var activity = CustomActivitySource.source.StartActivity("MaybeLong")) {
         // une chance sur 3
         if (random.Next(3) == 1)
         {
+            activity?.AddEvent(new System.Diagnostics.ActivityEvent("StartOfLong"));
             Task.Delay(3000).Wait();
+            activity?.AddEvent(new System.Diagnostics.ActivityEvent("EndOfLong"));
         }
-
+        }
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {
             Date = DateTime.Now.AddDays(index),
