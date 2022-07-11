@@ -18,9 +18,17 @@ public class WeatherForecastController : ControllerBase
         _logger = logger;
     }
 
+    private Random random = new Random();
+
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {
+        // une chance sur 3
+        if (random.Next(3) == 1)
+        {
+            Task.Delay(3000).Wait();
+        }
+
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {
             Date = DateTime.Now.AddDays(index),
