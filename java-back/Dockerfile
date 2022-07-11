@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk as build
+FROM openjdk:17-jdk-alpine as build
 WORKDIR /workspace/app
 
 COPY gradle gradle
