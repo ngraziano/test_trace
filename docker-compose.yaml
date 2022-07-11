@@ -23,7 +23,7 @@ services:
     image: grafana/agent:v0.26.0-rc.0
     volumes:
       - agentdata:/etc/agent/data
-      - agent.yaml:/etc/agent/agent.yaml
+      - ./agent.yaml:/etc/agent/agent.yaml
     networks:
       backtest:
         ipv4_address: 10.5.0.10
