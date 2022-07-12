@@ -6,7 +6,7 @@ WORKDIR /home/gradle/src
 RUN gradle build --no-daemon -x test
 RUN mkdir -p build/libs/dependency && (cd build/libs/dependency; jar -xf ../*.jar)
 
-FROM openjdk:17-jre-alpine
+FROM openjdk:17-alpine
 
 EXPOSE 8080
 VOLUME /tmp
