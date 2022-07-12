@@ -41,7 +41,7 @@ public class WeatherForecastController : ControllerBase
 
         using (var activity = CustomActivitySource.source.StartActivity("QueryBack"))
         {
-            var queries = Enumerable.Range(0, 10).Select(x => _backApi.SomeQuery());
+            var queries = Enumerable.Range(0, 1000).Select(x => _backApi.SomeQuery());
             await Task.WhenAll(queries);
         }
 
