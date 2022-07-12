@@ -15,6 +15,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddOpenTelemetryTracing((builder) => builder
         .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
         .AddSource("Demo.CustomActivitySource")
         .AddOtlpExporter()
     );

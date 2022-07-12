@@ -20,26 +20,32 @@ public class WeatherForecastController : ControllerBase
         _clientFactory = clientFactory;
     }
 
-    private Random random = new Random();
 
     [HttpGet(Name = "GetWeatherForecast")]
     public async Task<IEnumerable<WeatherForecast>> Get()
     {
-        
-        using(var activity = CustomActivitySource.source.StartActivity("MaybeLong")) {
-        // une chance sur 3
-        if (random.Next(3) == 1)
+
+        using (var activity = CustomActivitySource.source.StartActivity("MaybeLong"))
         {
-            activity?.AddEvent(new System.Diagnostics.ActivityEvent("StartOfLong"));
-            await Task.Delay(1000);
-            activity?.AddEvent(new System.Diagnostics.ActivityEvent("MidOfLong"));
-            await Task.Delay(1000);
+            // une chance sur 3
+            if (Random.Shared.Next(3) == 1)
+            {
+                activity?.AddEvent(new System.Diagnostics.ActivityEvent("StartOfLong"));
+                await Task.Delay(1000);
+                activity?.AddEvent(new System.Diagnostics.ActivityEvent("MidOfLong"));
+                await Task.Delay(1000);
 
-        }
+            }
         }
 
-        var client = _clientFactory.CreateClient("backjava");
-        await client.GetAsync("/long");
+
+        using (var activity = CustomActivitySource.source.StartActivity("QueryBack"))
+        {
+            var client = _clientFactory.CreateClient("backjava");
+            var queries = Enumerable.Range(0, 100).Select(x => client.GetAsync("/long"));
+            await Task.WhenAll(queries);
+        }
+
 
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {
