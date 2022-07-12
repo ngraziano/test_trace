@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,9 +20,13 @@ public class WeatherController {
         return data[0];
     }
 
+    private Random rand = new Random();
+
     @GetMapping("/long")
     public String Long() throws InterruptedException {
-        Thread.sleep(300);
+        if(rand.nextBoolean()) {
+            Thread.sleep(300);
+        }
         return "All good";
     }
    
