@@ -25,7 +25,7 @@ public class WeatherController {
     @GetMapping("/long")
     public String Long() throws InterruptedException {
         if(rand.nextBoolean()) {
-            Thread.sleep(300);
+            Thread.sleep(1);
         }
         return "All good";
     }
