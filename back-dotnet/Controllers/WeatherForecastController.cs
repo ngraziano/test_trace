@@ -12,12 +12,12 @@ public class WeatherForecastController : ControllerBase
     };
 
     private readonly ILogger<WeatherForecastController> _logger;
-    private readonly IHttpClientFactory _clientFactory;
+    private readonly IBackJavaApi _backApi;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger, IHttpClientFactory clientFactory)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, IBackJavaApi backApi)
     {
         _logger = logger;
-        _clientFactory = clientFactory;
+        _backApi = backApi;
     }
 
 
@@ -41,8 +41,7 @@ public class WeatherForecastController : ControllerBase
 
         using (var activity = CustomActivitySource.source.StartActivity("QueryBack"))
         {
-            var client = _clientFactory.CreateClient("backjava");
-            var queries = Enumerable.Range(0, 100).Select(x => client.GetAsync("/long"));
+            var queries = Enumerable.Range(0, 10).Select(x => _backApi.SomeQuery());
             await Task.WhenAll(queries);
         }
 

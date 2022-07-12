@@ -1,4 +1,5 @@
 using OpenTelemetry.Trace;
+using Refit;
 
 AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport",
  true);
@@ -20,11 +21,13 @@ builder.Services.AddOpenTelemetryTracing((builder) => builder
         .AddOtlpExporter()
     );
 
-builder.Services.AddHttpClient("backjava", (provider, httpClient) => {
+
+builder.Services.AddRefitClient<IBackJavaApi>()
+    .ConfigureHttpClient((provider, httpClient) => {
     var configuration = provider.GetRequiredService<IConfiguration>();
     httpClient.BaseAddress = new Uri(configuration.GetValue<string>("baseJavaUrl"));
-    
 });
+
 
 var app = builder.Build();
 
