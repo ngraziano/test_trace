@@ -19,6 +19,12 @@ builder.Services.AddOpenTelemetryTracing((builder) => builder
         .AddOtlpExporter()
     );
 
+builder.Services.AddHttpClient("backjava", (provider, httpClient) => {
+    var configuration = provider.GetRequiredService<IConfiguration>();
+    httpClient.BaseAddress = new Uri(configuration.GetValue<string>("baseJavaUrl"));
+    
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

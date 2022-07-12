@@ -5,6 +5,7 @@ services:
     build: back-dotnet/
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:8082/
+      - ASPNETCORE_baseJavaUrl=http://192.168.0.21:8081/
       - OTEL_SERVICE_NAME=test_docker_back_dotnet
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://192.168.0.21:4317/
     ports:
